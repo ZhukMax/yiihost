@@ -5,9 +5,28 @@ read USERNAME
 
 echo "Enter domain"
 read DOMAIN
+ 
+echo "Blank (b), new (n) or exists (x) project?"
+echo "default - blank (b):"
+read PROJECT
+
+if [ $PROJECT == n ] || [$PROJECT == new]
+then
+	composer global require "fxp/composer-asset-plugin:^1.2.0"
+	composer create-project --prefer-dist yiisoft/yii2-app-basic $USERNAME
+elif [ $PROJECT == x ] || [$PROJECT == exists]
+then
+	cd /var/www/
+	echo "Enter url to your git-repository:"
+	read REPO
+	git clone $REPO
+	cd ~
+elif [ $PROJECT == b ] || [$PROJECT == blank]
+then
+	mkdir /var/www/$USERNAME
+fi
 
 cd /var/www
-mkdir /var/www/$USERNAME
 mkdir /var/www/$USERNAME/tmp
 mkdir /var/www/$USERNAME/logs
 chmod -R 755 /var/www/$USERNAME/
