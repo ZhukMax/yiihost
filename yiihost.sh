@@ -16,25 +16,33 @@ chown www-data:www-data /var/www/$USERNAME
 echo "Creating vhost file"
 echo "
 server {
-    listen      80;
+    charset utf-8;
+    client_max_body_size 128M;
+
+    listen 80;
+
     server_name $DOMAIN www.$DOMAIN;
-    root        /var/www/$USERNAME/public;
-	  access_log	/var/www/$USERNAME/logs/access.log;
-	  error_log	/var/www/$USERNAME/logs/error.log;
+    root        /var/www/$USERNAME/web;
     index       index.php;
+
+    access_log  /var/www/$USERNAME/logs/access.log;
+    error_log   /var/www/$USERNAME/logs/error.log;
+
     location / {
-        try_files \$uri \$uri/ /index.php?_url=\$uri&\$args;
+        try_files \$uri \$uri/ /index.php?\$args;
     }
-    location ~ \.php {
-        fastcgi_pass  unix:/var/run/php/php7.0-fpm.sock;
-        fastcgi_index /index.php;
-        include fastcgi_params;
-        fastcgi_split_path_info       ^(.+\.php)(/.+)\$;
-        fastcgi_param PATH_INFO       \$fastcgi_path_info;
-        fastcgi_param PATH_TRANSLATED \$document_root\$fastcgi_path_info;
-        fastcgi_param SCRIPT_FILENAME \$document_root\$fastcgi_script_name;
+
+    location ~ \.(js|css|png|jpg|gif|swf|ico|pdf|mov|fla|zip|rar)\$ {
+        try_files \$uri =404;
     }
-    location ~ /\.ht {
+    error_page 404 /404.html;
+
+    location ~ \.php\$ {
+        include fastcgi.conf;
+        fastcgi_pass unix:/var/run/php/php7.0-fpm.sock;
+    }
+
+    location ~ /\.(ht|svn|git) {
         deny all;
     }
 }
