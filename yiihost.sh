@@ -12,6 +12,7 @@ read PROJECT
 
 if [ $PROJECT == n ] || [$PROJECT == new]
 then
+	cd /var/www
 	composer global require "fxp/composer-asset-plugin:^1.2.0"
 	composer create-project --prefer-dist yiisoft/yii2-app-basic $USERNAME
 elif [ $PROJECT == x ] || [$PROJECT == exists]
