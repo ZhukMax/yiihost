@@ -24,10 +24,10 @@ then
 	cd ~
 elif [ $PROJECT == b ] || [$PROJECT == blank]
 then
+	cd /var/www
 	mkdir /var/www/$USERNAME
 fi
 
-cd /var/www
 mkdir /var/www/$USERNAME/tmp
 mkdir /var/www/$USERNAME/logs
 chmod -R 755 /var/www/$USERNAME/
