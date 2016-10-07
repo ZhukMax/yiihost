@@ -15,6 +15,8 @@ then
 	cd /var/www
 	composer global require "fxp/composer-asset-plugin:^1.2.0"
 	composer create-project --prefer-dist yiisoft/yii2-app-basic $USERNAME
+	chmod -R 777 /var/www/$USERNAME/runtime/
+	chmod -R 777 /var/www/$USERNAME/web/assets/
 elif [ $PROJECT == x ] || [$PROJECT == exists]
 then
 	cd /var/www/
