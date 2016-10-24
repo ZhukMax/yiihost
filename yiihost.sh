@@ -1,14 +1,37 @@
-#!/bin/bash 
+#!/bin/bash
+
+# Keys for script
+while [ 1 ] ; do 
+   if [ "$1" = "--blank" ] ; then 
+      PROJECT="b" 
+   elif [ "$1" = "-b" ] ; then 
+      PROJECT="b"
+   elif [ "$1" = "--new" ] ; then 
+      PROJECT="n" 
+   elif [ "$1" = "-n" ] ; then 
+      PROJECT="n"
+   elif [ "$1" = "--exists" ] ; then 
+      PROJECT="x" 
+   elif [ "$1" = "-x" ] ; then 
+      PROJECT="x"
+   elif [ -z "$1" ] ; then 
+      break
+   else 
+      echo "Error: unknown key" 1>&2 
+      exit 1 
+   fi 
+   shift 
+done
 
 echo "Enter username for site:"
 read USERNAME
 
 echo "Enter domain"
 read DOMAIN
- 
-echo "Blank (b), new (n) or exists (x) project?"
-echo "default - blank (b):"
-read PROJECT
+
+if [ -z "$PROJECT" ] ; then
+	read -n 1 -p "blank ([b]), new (n) or exists (x) project? " PROJECT
+fi
 
 if [ $PROJECT == n ] || [$PROJECT == new]
 then
